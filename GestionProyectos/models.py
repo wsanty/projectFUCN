@@ -55,8 +55,8 @@ class Proyecto(models.Model):
     tema = models.CharField("Tema del proyecto", max_length=80)
     integrantes = models.ManyToManyField('GestionProyectos.Estudiante')
     asesores = models.ManyToManyField('GestionProyectos.Asesor')
-    fecha_inicio = models.DateField("Fecha Inicio", auto_now_add=True)
-    fecha_fin = models.DateField("Fecha Fin", auto_now_add=True)
+    fecha_inicio = models.DateTimeField('Fecha de Incio', blank=True, null=True)
+    fecha_fin = models.DateTimeField('Fecha Finaliza', blank=True, null=True)
     status = (('AB','Abierto'), ('CE', 'Cerrado'),('AN','Anulado'),('AP','Aprobado'),('RE','Rechazado'),('DE','Destacado'))
     estado = models.CharField(max_length=2, choices=status)
 
