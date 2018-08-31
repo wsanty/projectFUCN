@@ -19,7 +19,6 @@ class Persona(models.Model):
     identificacion = models.CharField("Número de Identificación", max_length=10)
     email = models.EmailField("Correo Electrónico")
     telefono = models.CharField("Número Telefónico", max_length=10)
-    programa = models.ForeignKey(Programa, null=False, blank=False, on_delete=models.CASCADE)
 
     def NombreCompleto(self):
         cadena = "{0} {1} {2} --> {3}"
@@ -38,14 +37,24 @@ class Asesor(models.Model):
         cadena = "{0}"
         return cadena.format(self.asesor)
 
+class Estudiante(models.Model):
+    """ Permite registrar los estudiantes que pueden participar en proyectos """
+    estudiante = models.ForeignKey(Persona, null=False, blank=False, on_delete=models.CASCADE)
+    programa = models.ForeignKey(Programa, null=False, blank=False, on_delete=models.CASCADE)
+
+    def __str__(self):
+        cadena = "{0}"
+        return cadena.format(self.estudiante)
+
+
 class Proyecto(models.Model):
     """ Permite registrar proyectos con sus respectivos integrantes, asesores, temas """
     codigo = models.CharField("Código Proyecto", max_length=10, unique=True)
     nombre = models.CharField("Nombre del Proyecto", max_length=60)
     descripcion = models.TextField("Descripción Corta del Proyecto", max_length=250)
     tema = models.CharField("Tema del proyecto", max_length=80)
-    integrantes = models.ManyToManyField('GestionProyectos.Persona')
-    #asesor = models.ForeignKey(Persona, null=False, blank=False, on_delete=models.CASCADE)
+    integrantes = models.ManyToManyField('GestionProyectos.Estudiante')
+    asesores = models.ManyToManyField('GestionProyectos.Asesor')
     fecha_inicio = models.DateField("Fecha Inicio", auto_now_add=True)
     fecha_fin = models.DateField("Fecha Fin", auto_now_add=True)
     status = (('AB','Abierto'), ('CE', 'Cerrado'),('AN','Anulado'),('AP','Aprobado'),('RE','Rechazado'),('DE','Destacado'))
