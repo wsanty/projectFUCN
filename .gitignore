@@ -3,3 +3,4 @@ __pychache__
 myvenv
 .DS_Store
 .vscode
+db.sqlite3
